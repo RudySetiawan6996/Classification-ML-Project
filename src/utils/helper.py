@@ -1,6 +1,24 @@
 import yaml
 import pandas as pd
 import joblib
+from sqlalchemy import create_engine
+
+
+def init_engine():
+
+    cred = {
+            'host': "ep-autumn-bar-a1ubq400.ap-southeast-1.aws.neon.tech",
+            'user': "siswa_bfp",
+            'pass': "bfp_aksel_keren",
+            'db': "credit_risk_db",
+            'port': 5432
+        }
+
+    uri = f"postgresql://{cred['user']}:{cred['pass']}@{cred['host']}:{cred['port']}/{cred['db']}?sslmode=require"
+
+    conn = create_engine(uri)
+
+    return conn
 
 
 def load_params(param_dir: str) -> dict:

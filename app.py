@@ -1,104 +1,102 @@
 import streamlit as st
 import requests
 
-st.title("House Price Prediction")
+st.title("NLP User Prediction")
 st.subheader("Enter the data below!")
 
 
-with st.form(key = "house_price_data_form"):
-    area = st.number_input(
-        label = "1.\tEnter area in meter value:",
+with st.form(key = "Credit_score_data_form"):
+    person_age = st.number_input(
+        label = "1.\tEnter person in age:",
         min_value = 0,
-        max_value = 99999,
-        help = "Area range from 0 to 99999"
+        max_value = 60,
+        help = "Age accepateble from 0 to 60"
     )
     
-    bed_rooms = st.number_input(
-        label = "2.\tEnter number of bedrooms value:",
+    person_income = st.number_input(
+        label = "2.\tEnter person income:",
         min_value = 0,
-        max_value = 999,
-        help = "Value range from 0 to 999"
+        max_value = 100_000_000_000_000,
+        help = "Value range from 0 to 100000000000000"
     )
     
-    bath_rooms = st.number_input(
-        label = "3.\tEnter number of bathrooms value:",
-        min_value = 0,
-        max_value = 999,
-        help = "Value range from 0 to 999"
+    person_home_ownership = st.selectbox(
+        label = "3.\tEnter person_home_ownership status:",
+        options = ('RENT', 'OWN', 'MORTGAGE', 'OTHER')
+        help = "The values are RENT', 'OWN', 'MORTGAGE' and 'OTHER'"
     )
     
-    stories = st.number_input(
-        label = "4.\tEnter number of stories value:",
-        min_value = 0,
-        max_value = 5,
-        help = "Value range from 0 to 5"
+    person_emp_length = st.number_input(
+        label = "4.\tEnter employee length value:",
+        min_value = 0.0,
+        max_value = 50.0,
+        help = "Value range from 0 to 50"
     )
     
-    main_road = st.selectbox(
-        label = "5.\tEnter the status of mainroad value:",
-        options = ("yes", "no"),
-        help = "The values are yes or no"
+    loan_intent = st.selectbox(
+        label = "5.\tEnter loan intent:",
+        options = ('PERSONAL', 'EDUCATION', 'MEDICAL', 'VENTURE', 'HOMEIMPROVEMENT',
+       'DEBTCONSOLIDATION'),
+        help = "The values are 'PERSONAL', 'EDUCATION', 'MEDICAL', 'VENTURE', 'HOMEIMPROVEMENT', and 'DEBTCONSOLIDATION'"
     )
     
-    guest_room = st.selectbox(
-        label = "6.\tEnter the status of guestroom value:",
-        options = ("yes", "no"),
-        help = "The values are yes or no"
+    loan_grade = st.selectbox(
+        label = "6.\tEnter load grade:",
+        options = ('A', 'B', 'C', 'D', 'E', 'F', 'G'),
+        help = "The values are A until G"
     )
     
-    basement = st.selectbox(
-        label = "7.\tEnter the status of basement value:",
-        options = ("yes", "no"),
-        help = "The values are yes or no"
+    loan_amnt = st.number_input(
+        label = "7.\tEnter loan amount value:",
+        min_value = 0.0,
+        max_value = 100_000_000_000_000,
+        help = "Value range from 0 to 50"
     )
     
-    hot_water_heating = st.selectbox(
-        label = "8.\tEnter the status of hotwaterheating value:",
-        options = ("yes", "no"),
-        help = "The values are yes or no"
+    loan_int_rate = st.number_input(
+        label = "8.\tEnter loan interest rate value:",
+        min_value = 0.0,
+        max_value = 100.0,
+        help = "The values range from 0 to 100"
     )
     
-    air_conditioning = st.selectbox(
-        label = "9.\tEnter the status of airconditioning value:",
-        options = ("yes", "no"),
-        help = "The values are yes or no"
+    loan_percent_income = st.number_input(
+        label = "9.\tEnter loan percentage from income value:",
+        min_value = 0.0,
+        max_value = 1.0,
+        help = "The values range from 0 to 1"
     )
     
-    parking = st.number_input(
-        label = "10.\tEnter number of parking area value:",
-        min_value = 0,
-        max_value = 10,
-        help = "Value range from 0 to 10"
+    cb_person_default_on_file = st.selectbox(
+        label = "10.\tEnter person default status on file value:",
+        options=('Y','N')
+        help = "The value are Y or N"
     )
     
-    pref_area = st.selectbox(
+    cb_person_cred_hist_length = st.number_input(
         label = "11.\tEnter the status of prefarea value:",
-        options = ("yes", "no"),
-        help = "The values are yes or no"
+        min_value = 0.0,
+        max_value = 50.0,
+        help = "The values range from 0 to 50"
     )
     
-    furnishing_status = st.selectbox(
-        label = "12.\tEnter the status of furnishingstatus value:",
-        options = ("furnished", "semi-furnished", "unfurnished"),
-        help = "The values are yes or no"
-    )
+
     
     submitted = st.form_submit_button("Predict")
     
     if submitted:
         raw_data = {
-            "area": area,
-            "bedrooms": bed_rooms,
-            "bathrooms": bath_rooms,
-            "stories": stories,
-            "mainroad": main_road,
-            "guestroom": guest_room,
-            "basement": basement,
-            "hotwaterheating": hot_water_heating,
-            "airconditioning": air_conditioning,
-            "parking": parking,
-            "prefarea": pref_area,
-            "furnishingstatus": furnishing_status,
+            'person_age':person_age, 
+            'person_income':person_income, 
+            'person_home_ownership':person_home_ownership,
+            'person_emp_length':person_emp_length,
+            'loan_intent':loan_intent, 
+            'loan_grade':loan_grade, 
+            'loan_amnt':loan_amnt,
+            'loan_int_rate':loan_int_rate,  
+            'loan_percent_income':loan_percent_income,
+            'cb_person_default_on_file':cb_person_default_on_file, 
+            'cb_person_cred_hist_length':cb_person_cred_hist_length
         }
         
         with st.spinner("Sending data to the API service..."):

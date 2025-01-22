@@ -8,25 +8,24 @@ from src.preprocessing.preprocess import preprocess_process
 
 # init models and params
 params = load_params(param_dir = "config/params.yaml")
-best_model = load_joblib(path = params["model_dump_path"] + "lasso_best_model_v2.pkl")
+best_model = load_joblib(path = params["model_dump_path"] + "best_model.pkl.pkl")
 
 # create FastAPI object
 app = FastAPI()
 
 # init base model to define the data type
 class APIData(BaseModel):
-    area: int
-    bedrooms: int
-    bathrooms: int
-    stories: int
-    mainroad: str
-    guestroom: str
-    basement: str
-    hotwaterheating: str
-    airconditioning: str
-    parking: int
-    prefarea: str
-    furnishingstatus: str
+    person_age:int
+    person_income :int
+    person_home_ownership : str
+    person_emp_length : int
+    loan_intent :str
+    loan_grade :str
+    loan_amnt : int
+    loan_int_rate : int  
+    loan_percent_income : int
+    cb_person_default_on_file :str
+    cb_person_cred_hist_length : int
 
 # for root dir website, do this process
 @app.get("/")
