@@ -8,9 +8,9 @@ st.subheader("Enter the data below!")
 with st.form(key = "Credit_score_data_form"):
     person_age = st.number_input(
         label = "1.\tEnter person in age:",
-        min_value = 0,
+        min_value = 17,
         max_value = 60,
-        help = "Age accepateble from 0 to 60"
+        help = "Age accepateble from 17 to 60"
     )
     
     person_income = st.number_input(
@@ -22,7 +22,7 @@ with st.form(key = "Credit_score_data_form"):
     
     person_home_ownership = st.selectbox(
         label = "3.\tEnter person_home_ownership status:",
-        options = ('RENT', 'OWN', 'MORTGAGE', 'OTHER')
+        options = ('RENT', 'OWN', 'MORTGAGE', 'OTHER'),
         help = "The values are RENT', 'OWN', 'MORTGAGE' and 'OTHER'"
     )
     
@@ -48,7 +48,7 @@ with st.form(key = "Credit_score_data_form"):
     
     loan_amnt = st.number_input(
         label = "7.\tEnter loan amount value:",
-        min_value = 0.0,
+        min_value = 0,
         max_value = 100_000_000_000_000,
         help = "Value range from 0 to 50"
     )
@@ -69,12 +69,12 @@ with st.form(key = "Credit_score_data_form"):
     
     cb_person_default_on_file = st.selectbox(
         label = "10.\tEnter person default status on file value:",
-        options=('Y','N')
+        options=('Y','N'),
         help = "The value are Y or N"
     )
     
     cb_person_cred_hist_length = st.number_input(
-        label = "11.\tEnter the status of prefarea value:",
+        label = "11.\tEnter person credit lengt value:",
         min_value = 0.0,
         max_value = 50.0,
         help = "The values range from 0 to 50"

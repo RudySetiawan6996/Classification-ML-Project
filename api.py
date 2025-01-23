@@ -8,7 +8,7 @@ from src.preprocessing.preprocess import preprocess_process
 
 # init models and params
 params = load_params(param_dir = "config/params.yaml")
-best_model = load_joblib(path = params["model_dump_path"] + "best_model.pkl.pkl")
+best_model = load_joblib(path = params["model_dump_path"] + "random_forest_best_model.pkl")
 
 # create FastAPI object
 app = FastAPI()
@@ -61,14 +61,14 @@ def predict(data: APIData):
     if y_pred[0] is None:
         return {
             "res": "Failed API",
-            "house_price_prediction": None,
+            "NLP_user_prediction": None,
             "status_code": 500,
             "error_msg": "Prediction returned None."
         }
         
     return {
         "res": "Found API",
-        "house_price_prediction": y_pred[0],
+        "NLP_user_prediction": y_pred[0],
         "status_code": 200,
         "error_msg": ""
     }
