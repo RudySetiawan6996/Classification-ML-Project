@@ -11,7 +11,7 @@ params = load_params(param_dir = "config/params.yaml")
 def preprocess_process(data: pd.DataFrame, params: dict) -> pd.DataFrame:
     cat_data, num_data = split_num_cat(data = data, params = params)
     
-    ohe = load_joblib(path = "data/processed/ohe_fix.pkl")
+    ohe = load_joblib(path = "data/processed/ohe_ordinal_model.pkl")
     
     cat_ohe_data = preprocess_ohe(data = cat_data, params = params)
     

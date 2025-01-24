@@ -28,8 +28,8 @@ with st.form(key = "Credit_score_data_form"):
     
     person_emp_length = st.number_input(
         label = "4.\tEnter employee length value:",
-        min_value = 0.0,
-        max_value = 50.0,
+        min_value = 0,
+        max_value = 50,
         help = "Value range from 0 to 50"
     )
     
@@ -75,8 +75,8 @@ with st.form(key = "Credit_score_data_form"):
     
     cb_person_cred_hist_length = st.number_input(
         label = "11.\tEnter person credit lengt value:",
-        min_value = 0.0,
-        max_value = 50.0,
+        min_value = 0,
+        max_value = 50,
         help = "The values range from 0 to 50"
     )
     
