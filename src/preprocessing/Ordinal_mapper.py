@@ -6,32 +6,25 @@ from src.utils.helper import load_params, load_joblib
 
 params = load_params(param_dir = "config/params.yaml")
 
-def save_encoders(data: pd.DataFrame, col_ohe: list, col_ordinal: list):
-    encoders = {}
+def ordinal_encoders(data: pd.DataFrame, col_ordinal: list):
+    ordinal = {}
 
-    # Initialize and fit OneHotEncoders for all columns
-    for col in col_ohe:
-        ohe = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
-        ohe.fit(data[[col]])
-        encoders[f'ohe_{col}'] = ohe
-
-    # Initialize and fit OrdinalEncoders for all columns
     for col in col_ordinal:
         values = [sorted(list(data[col].unique()))]
-        ordinal = OrdinalEncoder(categories=values)
-        ordinal.fit(data[[col]])
-        encoders[f'ordinal_{col}'] = ordinal
-    
-    encoder={'ohe':ohe,'ordinal':ordinal}
-    joblib.dump(encoder, params["dataset_dump_path"]["processed"] + "ohe_ordinal_model.pkl")
-    
-    return ohe,ordinal
+        ordinal[col] = OrdinalEncoder(categories=values)
+        ordinal[col].fit(data[[col]])
 
-def preprocess_ordinal(data:pd.DataFrame,params:dict):
+    # Save the dictionary of encoders
+    joblib.dump(ordinal, params["dataset_dump_path"]["processed"] + "/ordinal_model.pkl")
+    return ordinal
+    
+    
+
+def preprocess_ordinal(data:pd.DataFrame,params:dict,ordinal):
     col=params['label_ordinal_columns']
     encoded=pd.DataFrame(index=data.index)
     for i in col:
-        ordinal_feat=ordinal.fit_transform(data[[i]])
+        ordinal_feat=ordinal[i].fit_transform(data[[i]])
         ordinal_df=pd.DataFrame(ordinal_feat,columns=[i],index=data.index)
         ordinal_df.rename(columns={i:f'{i}_label'},inplace=True)
         encoded=pd.concat([encoded,ordinal_df],axis=1)
